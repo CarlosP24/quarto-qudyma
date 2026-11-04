@@ -1,0 +1,6 @@
+.DS_Store
+.quarto/
+*_files/
+template.html
+template-standalone.html
+/shots/
