@@ -1,22 +1,20 @@
 title: QUDYMA talk
 author: Carlos Payá
-version: 1.1.0
+version: 1.2.0
 quarto-required: ">=1.6.0"
 contributes:
   formats:
     revealjs:
       theme: [default, qudyma.scss]
       css: [fonts/montserrat.css]
-      include-in-header: [katex-static.html]
       template-partials:
         - title-slide.html
       revealjs-plugins:
         - plugin
-      # Local KaTeX: math renders offline. The path is relative to the document, so the
-      # .qmd must sit next to _extensions/ (the usual layout of a talk folder).
-      html-math-method:
-        method: katex
-        url: "_extensions/qudyma/katex/"
+      # Math: pandoc leaves the TeX source in <eq> elements (gladtex) and the plugin renders
+      # it with the bundled KaTeX. No loader script and no hard-coded path, so math works
+      # offline, in standalone builds and wherever quarto add puts the extension.
+      html-math-method: gladtex
       width: 1600
       height: 900
       margin: 0

@@ -1,2 +1,5 @@
+# KaTeX ships with the plugin: Quarto copies (and, with embed-resources, embeds) plugin files
+# wherever the extension is installed, e.g. _extensions/CarlosP24/qudyma/.
 name: RevealQudyma
-script: [qudyma.js]
+script: [katex/katex.min.js, qudyma.js]
+stylesheet: [katex/katex.min.css]

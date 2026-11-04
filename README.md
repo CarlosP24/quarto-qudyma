@@ -13,7 +13,7 @@ A new talk, with the starter deck:
 quarto use template CarlosP24/quarto-qudyma
 ```
 
-An existing talk folder (the `.qmd` must sit next to `_extensions/`):
+An existing talk folder:
 
 ```bash
 quarto add CarlosP24/quarto-qudyma
@@ -67,6 +67,10 @@ strip). `template.qmd` shows each of them.
 
 **Fragments**: reveal's own, plus `.fade-up` and `.dim-out`.
 
+**Math**: `$...$` and `$$...$$` as usual. The theme sets `html-math-method: gladtex` and
+renders the TeX with the KaTeX bundled in its plugin, so math works offline and in
+standalone files; for KaTeX in your own scripts, `window.katex` is there too.
+
 **Colours**: every palette colour is a CSS custom property (`--qd-red`, `--qd-ink`,
 `--qd-navy`, `--qd-green`, `--qd-orange`, their `-tint`s, …) for figures and scripts.
 
@@ -74,8 +78,8 @@ strip). `template.qmd` shows each of them.
 
 | Path | What |
 |---|---|
-| `_extensions/qudyma/` | The extension: `qudyma.scss`, `title-slide.html`, the reveal plugin (kickers, chrome, logo, math fallback), Montserrat, KaTeX |
+| `_extensions/qudyma/` | The extension: `qudyma.scss`, `title-slide.html`, the reveal plugin (kickers, chrome, logo, math with the bundled KaTeX), Montserrat |
 | `template.qmd`, `assets/` | Starter deck with placeholder art, photos and logos |
 
 Montserrat is under the SIL Open Font License (`fonts/OFL.txt`), KaTeX under the MIT
-license (`katex/LICENSE`); the rest is MIT (`LICENSE`).
+license (`plugin/katex/LICENSE`); the rest is MIT (`LICENSE`).

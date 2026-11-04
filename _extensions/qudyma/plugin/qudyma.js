@@ -6,9 +6,9 @@
 //    on slides with the class .no-chrome.
 //  - Logo: the document logo (YAML `logo:`) is placed in the top-right corner of every
 //    content slide, in line with the kicker, instead of Quarto's corner of the window.
-//  - Math: any KaTeX span left unrendered is rendered here. Standalone (embed-resources)
-//    builds need it: there Quarto loads KaTeX dynamically, which is not embedded, while the
-//    template also loads it statically (katex-static.html).
+//  - Math: pandoc writes TeX into <eq env="math|displaymath"> (html-math-method: gladtex);
+//    each is rendered here with the KaTeX bundled in this plugin and replaced by
+//    <span class="math inline|display">, the markup Quarto's own KaTeX would produce.
 window.RevealQudyma = function () {
   function partLabel(part) {
     if (part.dataset.kicker) return part.dataset.kicker;
@@ -47,13 +47,15 @@ window.RevealQudyma = function () {
   function renderMath(deck) {
     if (!window.katex) return;
     let n = 0;
-    document.querySelectorAll('span.math').forEach((el) => {
-      if (el.querySelector('.katex')) return;
+    document.querySelectorAll('eq[env]').forEach((el) => {
+      const display = el.getAttribute('env') === 'displaymath';
+      const span = document.createElement('span');
+      span.className = display ? 'math display' : 'math inline';
       try {
-        katex.render(el.textContent, el, { displayMode: el.classList.contains('display'), throwOnError: false });
+        katex.render(el.textContent, span, { displayMode: display, throwOnError: false });
+        el.replaceWith(span);
         n++;
       } catch (err) { /* leave the TeX source visible */ }
-      el.classList.replace('math', 'math-done');      // so a late loader does not render it twice
     });
     if (n) deck.layout();
   }
