@@ -912,3 +912,237 @@ body.qd-hide-chrome .reveal .slide-number {
   display: block;
   margin: 0 auto !important;
 }
+
+// ---------------------------------------------------------------------------
+// Talk structure: opening hook, conclusion cards, thank-you slide
+// The usual arc: title → hook → parts → conclusions → thank you (who I am, people,
+// paper) → conclusions again, left up during the questions → backup.
+// ---------------------------------------------------------------------------
+
+// Opening hook: a statement and the question of the talk, centred on an untitled slide
+//   ## {#hook .hook .no-kicker}
+//   ::: {.hook-body}
+//   [Statement.]{.hook-lead}
+//   [The question?]{.hook-q}
+//   :::
+.reveal .hook > h2 { display: none; }
+
+.reveal .hook-body {
+  position: absolute;
+  left: var(--qd-pad-x);
+  right: var(--qd-pad-x);
+  top: 50%;
+  transform: translateY(-50%);
+
+  p { margin: 0; }
+}
+
+.reveal .hook-lead {
+  display: block;
+  font-size: 46px;
+  font-weight: 500;
+  line-height: 1.3;
+  color: $qd-ink-2;
+}
+
+// the question carries the accent bar of the slide titles
+.reveal .hook-q {
+  display: block;
+  position: relative;
+  margin-top: 64px;
+  padding-top: 34px;
+  font-size: 66px;
+  font-weight: 650;
+  line-height: 1.12;
+  letter-spacing: -0.02em;
+  color: $qd-ink;
+  text-wrap: balance;
+
+  &::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 96px;
+    height: 5px;
+    border-radius: 3px;
+    background: $qd-red;
+  }
+}
+
+// Conclusion cards: one column per card (2–4), thumbnail on top, accent colour cycling
+// red, green, navy, orange.
+//   ::: {.ccards}
+//   ::: {.ccard}
+//   ![](thumb.svg)
+//   #### Short heading
+//   One sentence.
+//   :::
+//   :::
+.reveal .ccards {
+  display: grid;
+  grid-auto-flow: column;
+  grid-auto-columns: 1fr;
+  gap: 36px;
+  margin-top: 24px;
+}
+
+.reveal .ccard {
+  border: 1px solid $qd-line;
+  border-top: 6px solid $qd-red;
+  border-radius: 12px;
+  background: #fff;
+  overflow: hidden;
+
+  &:nth-child(4n + 2) { border-top-color: $qd-green; }
+  &:nth-child(4n + 3) { border-top-color: $qd-navy; }
+  &:nth-child(4n + 4) { border-top-color: $qd-orange; }
+
+  > p:first-child { margin: 0; }
+
+  img {
+    display: block;
+    width: 100%;
+    height: auto;
+    border-bottom: 1px solid $qd-line;
+  }
+
+  h4 {
+    margin: 18px 24px 6px;
+    font-size: 27px;
+    color: $qd-ink;
+  }
+
+  h4 + p {
+    margin: 0 24px 22px;
+    font-size: 23px;
+    line-height: 1.35;
+    color: $qd-ink-2;
+  }
+}
+
+// Thank-you slide: who I am (left: .photo-map, .figcap, .whoami, .thesis, .contact), the
+// people (.people > .group > .group-h + .avatars) and the paper (.qr) on the right, logos
+// along the bottom (.funding > .inst + funders). Both columns are centred in the band
+// between the title and the logos.
+.reveal .thanks > .columns {
+  align-items: center;
+  height: 590px;
+}
+
+.reveal .thanks > .columns > .column:last-child { padding-left: 40px; }
+.reveal .thanks .figcap { margin-top: 8px; }
+
+.reveal .thanks .whoami {
+  display: block;
+  margin-top: 14px;
+  font-size: 24px;
+  line-height: 1.35;
+}
+
+.reveal .thanks .thesis {
+  display: block;
+  margin-top: 4px;
+  font-size: 19px;
+  line-height: 1.35;
+  color: $qd-ink-2;
+}
+
+.reveal .thanks .contact {
+  display: block;
+  margin-top: 12px;
+  font-size: 22px;
+  color: $qd-navy;
+}
+
+.reveal .thanks .people {
+  display: flex;
+  align-items: flex-start;
+  gap: 40px;
+}
+
+// group labels are spans, not headings: a heading would turn the div into a nested
+// section, and reveal would take the slide for a vertical stack
+.reveal .thanks .group-h {
+  display: block;
+  margin: 0 0 6px 0;
+  font-size: 24px;
+  font-weight: 600;
+  color: $qd-ink-2;
+  text-align: center;
+}
+
+.reveal .thanks .group > p:first-child { margin: 0; }
+
+.reveal .thanks .people .group + .group {
+  padding-left: 40px;
+  border-left: 1px solid $qd-line;
+}
+
+// a group that continues the row before it: same spacing as between avatars, no divider
+.reveal .thanks .people .group.joined {
+  margin-left: -15px;
+  padding-left: 0;
+  border-left: none;
+}
+
+// a label wider than its avatar stays centred over it
+.reveal .thanks .avatars {
+  justify-content: center;
+  margin: 8px 0 0 0;
+  gap: 34px;
+}
+
+// The paper: QR code and reference in a quiet panel
+//   ::: {.qr}
+//   ![](qr.svg)
+//   ::: {.qr-text}
+//   [Journal **vol**, page (year)]{.semibold}<br>[doi.org/...]{.muted}
+//   :::
+//   :::
+.reveal .qr {
+  display: flex;
+  align-items: center;
+  gap: 34px;
+  margin-top: 34px;
+  padding: 22px 30px;
+  border-radius: 18px;
+  background: $qd-surface;
+  border: 1px solid $qd-line;
+  font-size: 22px;
+  line-height: 1.4;
+
+  p { margin: 0; }
+  .qr-text p + p { margin-top: 12px; }
+  img { display: block; width: 170px; }
+}
+
+// Logos along the bottom: institutions (left, the sizes of the title slide; .tall for a
+// square logo), funders (right). Logos keep their aspect ratio: height only.
+.reveal .funding {
+  position: absolute;
+  left: var(--qd-pad-x);
+  right: var(--qd-pad-x);
+  bottom: 50px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  p { margin: 0; }
+
+  .inst p {
+    display: flex;
+    align-items: center;
+    gap: 44px;
+  }
+
+  img {
+    height: 72px;
+    width: auto;
+    max-width: none;   // reveal's 95% cap squeezes wide strips
+    max-height: none;
+  }
+
+  .inst img { height: 50px; }
+  .inst img.tall { height: 84px; }
+}
